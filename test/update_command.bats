@@ -33,22 +33,9 @@ teardown() {
   [ $(git rev-parse --abbrev-ref HEAD) = "master" ]
 }
 
-@test "asdf update should checkout the latest non-RC tag" {
-  local tag=$(git tag | grep -vi "rc" | tail -1)
-  if [ -n "$tag" ]; then
-    run asdf update
-    [ "$status" -eq 0 ]
-    cd $ASDF_DIR
-    git tag | grep $tag
-    [ "$?" -eq 0 ]
-  fi
-}
-
-@test "asdf update should checkout the latest tag when configured with use_release_candidates = yes" {
+@test "asdf update should checkout the latest tag" {
   local tag=$(git tag | tail -1)
   if [ -n "$tag" ]; then
-    export ASDF_CONFIG_DEFAULT_FILE=$BATS_TMPDIR/asdfrc_defaults
-    echo "use_release_candidates = yes" >$ASDF_CONFIG_DEFAULT_FILE
     run asdf update
     [ "$status" -eq 0 ]
     cd $ASDF_DIR
