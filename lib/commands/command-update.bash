@@ -33,7 +33,7 @@ do_update() {
     git fetch origin --tags || exit 1
 
     sha_of_tag=$(git rev-list --tags --max-count=1) || exit 1
-    tag=git describe --tags "$sha_of_tag" || exit 1
+    tag=$(git describe --tags "$sha_of_tag") || exit 1
 
     # Update
     git checkout "$tag" || exit 1
